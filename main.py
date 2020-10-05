@@ -22,13 +22,45 @@ def matchday(winner, loser, draw):
                 i['pts'] += 1
 
 
-olf = []
+
 # 전반부 중복방지
-for mdf in range(0, 10):
-    # 리그 전반부
+for mdf in range(10):
+    olf = []
+    # 리그 전반부는 190경기(실제로 프리미어리그 총 경기수는 380경기)로 10번 반복하되 라운드당 9경기를 치르는 시스템으로 정한다
     mdindex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-    for matchcount in range(0, 10):
-        # 한라운드 리그 경기 수
+    for matchcount in range(9):
+        # 한라운드 리그 경기 수(9경기)
+        rd1 = random.choice(mdindex)
+        mdindex.remove(rd1)
+        rd2 = random.choice(mdindex)
+        mdindex.append(rd1)
+
+        # 두 인덱스 선택
+        while {rd1, rd2} in olf:
+            # 두 인덱스가 이미 선택된적이 있었을경우 반복해서 계속 랜덤으로 선택
+            rd1 = random.choice(mdindex)
+            mdindex.remove(rd1)
+            # 중복되지 않도록 삭제
+            rd2 = random.choice(mdindex)
+            mdindex.append(rd1)
+            # 고른후 다시 추가
+
+        mdindex.remove(rd1)
+        mdindex.remove(rd2)
+        # 반복문을 나온뒤 둘다 삭제
+        olf.append({rd1, rd2})
+        # 중복방지 리스트에 추가
+
+        order = [rd1, rd2]
+        orderr = random.choice(order)
+        order.remove(orderr)
+        matchday(vp[orderr]['name'], vp[order[0]]['name'], random.choice([True, False]))
+for mds in range(10):
+    olf = []
+    # 리그 전반부는 190경기(실제로 프리미어리그 총 경기수는 380경기)로 10번 반복하되 라운드당 9경기를 치르는 시스템으로 정한다
+    mdindex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    for matchcount in range(9):
+        # 한라운드 리그 경기 수(9경기)
         rd1 = random.choice(mdindex)
         mdindex.remove(rd1)
         rd2 = random.choice(mdindex)
